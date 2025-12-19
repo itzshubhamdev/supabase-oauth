@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     }
 
     // Redirect back to the client with authorization code
-    const redirectTo = data.redirect_uri ?? data.redirect_url;
+    const redirectTo = data.redirect_url;
     if (!redirectTo) {
       return NextResponse.json({ error: "Missing redirect uri" }, { status: 400 });
     }
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     }
 
     // Redirect back to the client with error
-    const redirectTo = data.redirect_uri ?? data.redirect_url;
+    const redirectTo = data.redirect_url;
     if (!redirectTo) {
       return NextResponse.json({ error: "Missing redirect uri" }, { status: 400 });
     }
