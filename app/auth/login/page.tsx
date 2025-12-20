@@ -15,6 +15,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 const supabase = createClient();
 
@@ -26,7 +27,6 @@ export default function LoginForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const redirectUrl = searchParams.get("redirect") || "/";
   const router = useRouter();
@@ -44,10 +44,10 @@ export default function LoginForm() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    toast.dismiss();
 
     if (!email || !password) {
-      setError("Email and password are required");
+      toast.error("Email and password are required");
       return;
     }
 
@@ -59,17 +59,20 @@ export default function LoginForm() {
     });
 
     if (error) {
-      setError(error.message.charAt(0).toUpperCase() + error.message.slice(1));
+      toast.error(
+        error.message.charAt(0).toUpperCase() + error.message.slice(1),
+      );
       setLoading(false);
       return;
     }
 
+    toast.success("Logged in successfully!");
     router.push(redirectUrl);
   };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    toast.dismiss();
 
     if (
       !firstName ||
@@ -79,17 +82,17 @@ export default function LoginForm() {
       !password ||
       !confirmPassword
     ) {
-      setError("All fields are required");
+      toast.error("All fields are required");
       return;
     }
 
     if (username.length < 3) {
-      setError("Username must be at least 3 characters long");
+      toast.error("Username must be at least 3 characters long");
       return;
     }
 
     if (/[^a-zA-Z0-9]/.test(username)) {
-      setError("Username can only contain alphanumeric characters");
+      toast.error("Username can only contain alphanumeric characters");
       return;
     }
 
@@ -98,14 +101,14 @@ export default function LoginForm() {
         password,
       ) === false
     ) {
-      setError(
+      toast.error(
         "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.",
       );
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -124,12 +127,15 @@ export default function LoginForm() {
     });
 
     if (error) {
-      setError(error.message.charAt(0).toUpperCase() + error.message.slice(1));
+      toast.error(
+        error.message.charAt(0).toUpperCase() + error.message.slice(1),
+      );
       setLoading(false);
       return;
     }
 
-    router.push(redirectUrl);
+    toast.success("Account created successfully! Please check your email.");
+    router.push("/auth/login?redirect=" + encodeURIComponent(redirectUrl));
   };
 
   return (
@@ -184,7 +190,6 @@ export default function LoginForm() {
               >
                 {loading ? "Logging in..." : "Login"}
               </Button>
-              {error && <p className="text-red-500 m-4">{error}</p>}
             </CardFooter>
           </Card>
         </TabsContent>
@@ -279,7 +284,6 @@ export default function LoginForm() {
               >
                 {loading ? "Signing up..." : "Signup"}
               </Button>
-              {error && <p className="text-red-500 m-4">{error}</p>}
             </CardFooter>
           </Card>
         </TabsContent>

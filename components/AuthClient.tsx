@@ -57,7 +57,6 @@ export default function AuthClient({ user, supabaseUrl, clientId }: any) {
     <div>
       {user ? (
         <>
-          <p>Logged in as {user.email}</p>
           {authURL && (
             <a href={authURL} target="_blank" rel="noreferrer">
               {authURL}

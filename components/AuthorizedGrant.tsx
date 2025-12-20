@@ -11,23 +11,19 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import type { createClient } from "@/app/lib/supabase/server";
+import type { OAuthGrant } from "@supabase/supabase-js";
+import { toast } from "sonner";
 
-type Grant = {
-  client: {
-    id: string;
-    name: string;
-    logo_uri: string;
+export default function AuthorizedGrant({ grant }: { grant: OAuthGrant }) {
+  const handleSubmit = async () => {
+    const response = await revokeGrant(grant.client.id);
+    if (!response.success) {
+      toast.error(response.error || "Failed to revoke grant");
+    }
+
+    toast.success("Grant revoked successfully");
   };
-  scopes: string[];
-  granted_at: string;
-};
 
-export default function AuthorizedGrant({
-  grant,
-}: {
-  grant: Grant;
-}) {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
