@@ -52,20 +52,20 @@ export default async function ConsentPage({
   // Get authorization details using the authorization_id
   const { data: authDetails, error } =
     await supabase.auth.oauth.getAuthorizationDetails(authorizationId);
-  console.log("Auth Details:", authDetails, "Error:", error);
+
   if (error || !authDetails) {
     return (
       <div>Error: {error?.message || "Invalid authorization request"}</div>
     );
   }
 
-  if (!error && authDetails.redirect_uri && !authDetails.client) {
-    return redirect(authDetails.redirect_uri);
+  if (!error && authDetails.redirect_url && !authDetails.client) {
+    return redirect(authDetails.redirect_url);
   }
 
   return (
     <>
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md h-fit">
         <CardHeader>
           <CardTitle>Authorize {authDetails.client.name}</CardTitle>
           <CardDescription>
@@ -106,7 +106,7 @@ export default async function ConsentPage({
         </CardContent>
         <CardFooter className="flex-col">
           <form
-            action="/api/oauth/decision"
+            action="/oauth/decision"
             method="POST"
             className="w-full my-8 flex space-x-4 justify-center"
           >
