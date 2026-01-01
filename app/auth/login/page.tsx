@@ -139,7 +139,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex w-full max-w-sm flex-col gap-6">
+    <div className="flex w-full max-w-sm flex-col gap-6 my-auto">
       <Tabs defaultValue="login">
         <TabsList>
           <TabsTrigger value="login">Login</TabsTrigger>

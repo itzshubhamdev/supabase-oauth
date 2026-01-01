@@ -65,7 +65,7 @@ export default async function ConsentPage({
 
   return (
     <>
-      <Card className="w-full max-w-md h-fit">
+      <Card className="w-full max-w-md h-fit my-auto">
         <CardHeader>
           <CardTitle>Authorize {authDetails.client.name}</CardTitle>
           <CardDescription>
