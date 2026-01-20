@@ -32,8 +32,10 @@ export default function LoginForm() {
   const router = useRouter();
 
   const checkUserSession = async () => {
-    const { data: user } = await supabase.auth.getUser();
-    if (user.user) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
       router.push(redirectUrl);
     }
   };
@@ -178,6 +180,11 @@ export default function LoginForm() {
                     placeholder="Password"
                     required
                   />
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  <a href="/auth/forgot-password" className="underline">
+                    Forgot your password?
+                  </a>
                 </div>
               </div>
             </CardContent>
