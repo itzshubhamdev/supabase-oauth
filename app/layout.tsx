@@ -4,6 +4,10 @@ import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { createClient } from "./lib/supabase/server";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +30,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    // redirect("/auth/login");
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -37,10 +50,18 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col w-full items-center min-h-screen p-8 relative">
-            <Toaster position="top-right" />
-            {children}
-          </div>
+          <SidebarProvider>
+            <div className="flex w-full min-h-screen">
+              <Toaster position="top-right" />
+              {user && <Sidebar user={user} />}
+              <div className="w-full justify-center">
+                {user && <Navbar user={user} />}
+                <div className="flex w-full items-center justify-center p-8">
+                  {children}
+                </div>
+              </div>
+            </div>
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>

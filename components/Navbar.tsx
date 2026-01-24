@@ -1,23 +1,34 @@
 import { User } from "@supabase/supabase-js";
 import LogOutBtn from "./LogOutBtn";
 import { ThemeToggle } from "./ThemeToggle";
-import { Card, CardAction, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { UserCog } from "lucide-react";
+import Link from "next/link";
+import { Separator } from "./ui/separator";
+import { SidebarTrigger } from "./ui/sidebar";
 
 export default function Navbar({ user }: { user: User }) {
+  const is_admin = user?.user_metadata?.is_admin;
+
   return (
-    <Card className="w-full max-w-6xl mb-8">
-      <CardHeader className="flex justify-between items-center w-full">
-        <CardTitle>SuperAuth</CardTitle>
-        <CardAction className="flex gap-2">
-          <LogOutBtn />
+    <>
+      <div className="w-full flex justify-between items-center p-4">
+        <div className="flex items-center">
+          <SidebarTrigger className="absolute" />
+        </div>
+        <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button variant="outline" size="icon">
-            <UserCog />
-          </Button>
-        </CardAction>
-      </CardHeader>
-    </Card>
+          {is_admin && (
+            <Link href="/admin">
+              <Button variant="outline" size="icon">
+                <UserCog />
+              </Button>
+            </Link>
+          )}
+          <LogOutBtn />
+        </div>
+      </div>
+      <Separator />
+    </>
   );
 }

@@ -29,8 +29,28 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // refreshing the auth token
   await supabase.auth.getUser();
+
+  const { data } = await supabase.auth.getClaims();
+
+  const user = data?.claims;
+
+  if (
+    !user &&
+    !request.nextUrl.pathname.startsWith("/auth") &&
+    !request.nextUrl.pathname.startsWith("/oauth") &&
+    !request.nextUrl.pathname.startsWith("/api")
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/login";
+    return NextResponse.redirect(url);
+  }
+
+  if (user && request.nextUrl.pathname.startsWith("/auth")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
+    return NextResponse.redirect(url);
+  }
 
   return supabaseResponse;
 }

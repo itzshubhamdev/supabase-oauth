@@ -19,13 +19,7 @@ import { Button } from "./ui/button";
 import { updateProfile } from "@/app/lib/utils";
 import { toast } from "sonner";
 
-export default function Profile({
-  user,
-  grants,
-}: {
-  user: User;
-  grants: AuthOAuthGrantsResponse;
-}) {
+export default function Profile({ user }: { user: User }) {
   const [firstName, setFirstName] = useState(
     user?.user_metadata.first_name || "N/A",
   );
@@ -68,9 +62,7 @@ export default function Profile({
         <>
           <CardHeader>
             <CardTitle>Profile</CardTitle>
-            <CardDescription>
-              Manage your authorized grants and profile information.
-            </CardDescription>
+            <CardDescription>Manage your profile information.</CardDescription>
             <CardAction className="flex space-x-2">
               <div className="flex items-center group relative overflow-hidden">
                 <AvatarUpload />
@@ -127,19 +119,6 @@ export default function Profile({
                 </Button>
               </div>
             </div>
-            <Separator className="my-6" />
-            {!grants.error && grants.data && grants.data.length > 0 && (
-              <div className="w-full space-y-6">
-                <h1 className="col-span-3 text-xl font-semibold">
-                  Authorized Grants:
-                </h1>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                  {grants.data.map((grant) => (
-                    <AuthorizedGrant key={grant.client.id} grant={grant} />
-                  ))}
-                </div>
-              </div>
-            )}
           </CardContent>
         </>
       )}

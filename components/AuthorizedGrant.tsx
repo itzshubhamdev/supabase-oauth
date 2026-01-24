@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import {
   Card,
   CardAction,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -28,11 +29,6 @@ export default function AuthorizedGrant({ grant }: { grant: OAuthGrant }) {
     <Card className="w-full">
       <CardHeader>
         <CardTitle>{grant.client.name}</CardTitle>
-        <CardDescription>
-          <h4>
-            <span className="font-semibold">ID:</span> {grant.client.id}
-          </h4>
-        </CardDescription>
         <CardAction>
           <Avatar>
             <AvatarImage
@@ -45,6 +41,22 @@ export default function AuthorizedGrant({ grant }: { grant: OAuthGrant }) {
           </Avatar>
         </CardAction>
       </CardHeader>
+      <CardContent className="text-sm">
+        <ul className="space-y-2">
+          <li>
+            <span className="font-semibold">ID:</span> {grant.client.id}
+          </li>
+          <li>
+            <span className="font-semibold">Authorized At:</span>{" "}
+            {new Date(grant.granted_at).toDateString()} at{" "}
+            {new Date(grant.granted_at).toLocaleTimeString()}
+          </li>
+          <li>
+            <span className="font-semibold">Scopes:</span>{" "}
+            {grant.scopes.join(", ")}
+          </li>
+        </ul>
+      </CardContent>
       <CardFooter>
         <Button className="w-full" onClick={handleSubmit} variant="destructive">
           Revoke

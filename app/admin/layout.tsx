@@ -1,7 +1,5 @@
 import { redirect } from "next/navigation";
 import { createClient } from "../lib/supabase/server";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import AdminSidebar from "@/components/AdminSidebar";
 
 export default async function AdminLayout({
   children,
@@ -22,9 +20,8 @@ export default async function AdminLayout({
   }
 
   return (
-    <SidebarProvider>
-      <AdminSidebar />
+    <>
       <main className="w-full">{children}</main>
-    </SidebarProvider>
+    </>
   );
 }
