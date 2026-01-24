@@ -9,11 +9,11 @@ export function ThemeToggle() {
   const { setTheme } = useTheme();
 
   return (
-    <>
+    <div className="relative">
       <Button
         variant="outline"
         size="icon"
-        className="scale-100 rotate-0 translate-x-full transition-all dark:scale-0 dark:-rotate-90"
+        className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
         onClick={() => setTheme("dark")}
       >
         <Sun className="h-[1.2rem] w-[1.2rem]" />
@@ -22,11 +22,11 @@ export function ThemeToggle() {
       <Button
         variant="outline"
         size="icon"
-        className="scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+        className="absolute inset-0 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
         onClick={() => setTheme("light")}
       >
         <Moon className="h-[1.2rem] w-[1.2rem]" />
       </Button>
-    </>
+    </div>
   );
 }

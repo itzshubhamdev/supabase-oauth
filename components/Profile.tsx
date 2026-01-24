@@ -1,9 +1,6 @@
 "use client";
 
-import type {
-  UserResponse,
-  AuthOAuthGrantsResponse,
-} from "@supabase/supabase-js";
+import type { AuthOAuthGrantsResponse, User } from "@supabase/supabase-js";
 import {
   Card,
   CardAction,
@@ -26,17 +23,17 @@ export default function Profile({
   user,
   grants,
 }: {
-  user: UserResponse;
+  user: User;
   grants: AuthOAuthGrantsResponse;
 }) {
   const [firstName, setFirstName] = useState(
-    user.data.user?.user_metadata.first_name || "N/A",
+    user?.user_metadata.first_name || "N/A",
   );
   const [lastName, setLastName] = useState(
-    user.data.user?.user_metadata.last_name || "N/A",
+    user?.user_metadata.last_name || "N/A",
   );
   const [username, setUsername] = useState(
-    user.data.user?.user_metadata.username || "N/A",
+    user?.user_metadata.username || "N/A",
   );
 
   const handleSubmit = async () => {
@@ -67,7 +64,7 @@ export default function Profile({
 
   return (
     <Card className="w-full">
-      {user.data.user && (
+      {user && (
         <>
           <CardHeader>
             <CardTitle>Profile</CardTitle>
@@ -79,12 +76,11 @@ export default function Profile({
                 <AvatarUpload />
                 <Avatar className="w-16 h-16">
                   <AvatarImage
-                    src={user.data.user.user_metadata.avatar_url}
-                    alt={`${user.data.user.user_metadata.first_name} profile picture`}
+                    src={user.user_metadata.avatar_url}
+                    alt={`${user.user_metadata.first_name} profile picture`}
                   />
                   <AvatarFallback>
-                    {user.data.user.email &&
-                      user.data.user.email.charAt(0).toUpperCase()}
+                    {user.email && user.email.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -94,15 +90,15 @@ export default function Profile({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6">
               <div className="grid gap-2">
                 <h3 className="font-medium">Email:</h3>
-                <p>{user.data.user.email}</p>
+                <p>{user.email}</p>
               </div>
               <div className="grid gap-2">
                 <h3 className="font-medium">User ID:</h3>
-                <p>{user.data.user.id}</p>
+                <p>{user.id}</p>
               </div>
               <div className="grid gap-2">
                 <h3 className="font-medium">Created At:</h3>
-                <p>{new Date(user.data.user.created_at).toLocaleString()}</p>
+                <p>{new Date(user.created_at).toLocaleString()}</p>
               </div>
               <div className="grid gap-2">
                 <h3 className="font-medium">First Name:</h3>
@@ -132,18 +128,18 @@ export default function Profile({
               </div>
             </div>
             <Separator className="my-6" />
-            <div className="grid grid-cols-3 gap-6 w-full">
-              {!grants.error && grants.data && grants.data.length > 0 && (
-                <>
-                  <h1 className="col-span-3 text-xl font-semibold">
-                    Authorized Grants:
-                  </h1>
+            {!grants.error && grants.data && grants.data.length > 0 && (
+              <div className="w-full space-y-6">
+                <h1 className="col-span-3 text-xl font-semibold">
+                  Authorized Grants:
+                </h1>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
                   {grants.data.map((grant) => (
                     <AuthorizedGrant key={grant.client.id} grant={grant} />
                   ))}
-                </>
-              )}
-            </div>
+                </div>
+              </div>
+            )}
           </CardContent>
         </>
       )}

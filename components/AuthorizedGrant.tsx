@@ -25,7 +25,7 @@ export default function AuthorizedGrant({ grant }: { grant: OAuthGrant }) {
   };
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>{grant.client.name}</CardTitle>
         <CardDescription>
@@ -46,7 +46,7 @@ export default function AuthorizedGrant({ grant }: { grant: OAuthGrant }) {
         </CardAction>
       </CardHeader>
       <CardFooter>
-        <Button className="w-full" onClick={() => revokeGrant(grant.client.id)}>
+        <Button className="w-full" onClick={handleSubmit} variant="destructive">
           Revoke
         </Button>
       </CardFooter>
