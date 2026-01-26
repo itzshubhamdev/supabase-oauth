@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { toast } from "sonner";
 import { userColumns } from "./columns";
@@ -16,19 +22,60 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
-import { Trash2 } from "lucide-react";
+import { Trash2, UserPlus } from "lucide-react";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import NewUser from "@/components/NewUser";
+import { Button } from "@/components/ui/button";
 
-export default async function AdminPage() {
+export default async function Page() {
   const { data, error } = await supabase.auth.admin.listUsers();
 
   if (error) {
     toast.error(error.message.charAt(0).toUpperCase() + error.message.slice(1));
   }
 
+  const createNewUser = async (
+    email: string,
+    password: string,
+    autoConfirm: boolean,
+  ) => {
+    "use server";
+
+    console.log({ email, password, autoConfirm });
+
+    const { error } = await supabase.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: autoConfirm,
+    });
+
+    console.log({ error });
+
+    if (error) {
+      toast.error(
+        error.message.charAt(0).toUpperCase() + error.message.slice(1),
+      );
+    } else {
+      toast.success("User created successfully");
+    }
+  };
+
   return (
     <div className="w-full flex ">
       <Card className="w-full relative">
-        <CardHeader>Users</CardHeader>
+        <CardHeader>
+          <CardTitle>Users</CardTitle>
+          <CardAction>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <UserPlus /> New User
+                </Button>
+              </SheetTrigger>
+              <NewUser createNewUser={createNewUser} />
+            </Sheet>
+          </CardAction>
+        </CardHeader>
         <CardContent>
           <AlertDialog>
             <DataTable columns={userColumns} data={data.users} />

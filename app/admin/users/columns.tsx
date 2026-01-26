@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { User } from "@supabase/supabase-js";
 import { ColumnDef } from "@tanstack/react-table";
-import { Delete, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 
 export const userColumns: ColumnDef<User>[] = [
   {

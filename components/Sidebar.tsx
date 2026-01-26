@@ -48,8 +48,8 @@ const adminItems = [
     icon: Users,
   },
   {
-    title: "Settings",
-    url: "/admin/settings",
+    title: "OAuth Applications",
+    url: "/admin/oauth",
     icon: Settings,
   },
 ];
