@@ -30,9 +30,9 @@ export default function LoginForm() {
     if (session) {
       const { data } = await supabase.auth.getClaims();
       if (data && data.claims && data.claims.amr) {
-        if (data.claims.amr[0].method != "recovery") {
-          router.push("/auth/login");
-        }
+        // if (data.claims.amr[0].method != "recovery") {
+        //   router.push("/auth/login");
+        // }
       }
     }
   };
