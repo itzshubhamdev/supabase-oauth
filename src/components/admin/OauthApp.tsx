@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 
 export default function OAuthApp({
   app,
@@ -33,11 +34,28 @@ export default function OAuthApp({
         </CardAction>
       </CardHeader>
       <CardContent className="text-sm">
-        <ul className="space-y-2">
-          <li>
-            <span className="font-semibold">ID:</span> {app.client_id}
-          </li>
-        </ul>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell className="text-wrap">{app.client_id}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>{app.client_name}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Redirect URIs</TableCell>
+              <TableCell>
+                <div className="flex flex-col">
+                  {app.redirect_uris.map((uri) => (
+                    <span key={uri}>{uri}</span>
+                  ))}
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </CardContent>
       <CardFooter>
         <Button
