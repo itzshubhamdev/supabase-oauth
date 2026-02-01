@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { capitalize } from "@/lib/utils";
-import { Copy, Trash2 } from "lucide-react";
+import { Copy } from "lucide-react";
 import { redirect } from "next/navigation";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Input } from "@/components/ui/input";
