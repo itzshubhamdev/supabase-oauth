@@ -6,6 +6,7 @@ import { formatDate } from "@/app/utils";
 import { User } from "@supabase/supabase-js";
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash } from "lucide-react";
+import Link from "next/link";
 
 export const userColumns: ColumnDef<User>[] = [
   {
@@ -15,6 +16,14 @@ export const userColumns: ColumnDef<User>[] = [
   {
     accessorKey: "user_metadata.username",
     header: "Username",
+    cell: ({ row }) => {
+      const user = row.original;
+      return (
+        <Link href={`/admin/users/${user.id}`} className="underline">
+          {user.user_metadata.username}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "email",
@@ -30,8 +39,7 @@ export const userColumns: ColumnDef<User>[] = [
   },
   {
     id: "delete",
-    cell: ({ row }) => {
-      const user = row.original;
+    cell: () => {
       return (
         <AlertDialogTrigger asChild>
           <Button variant="destructive" size="sm">

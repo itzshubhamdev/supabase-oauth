@@ -6,7 +6,7 @@ import { ButtonGroup } from "../ui/button-group";
 import { Field, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { useState } from "react";
-import { regenerateClientSecret } from "@/serverFunctions/admin";
+import { regenerateClientSecret } from "@/serverFunctions/admin/oAuthApp";
 import { toast } from "sonner";
 
 export default function OAuthClientSecret({

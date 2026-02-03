@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
 import { Input } from "../ui/input";
 import { useState } from "react";
-import { addOAuthUri, deleteOAuthUri } from "@/serverFunctions/admin";
+import { addOAuthUri, deleteOAuthUri } from "@/serverFunctions/admin/oAuthApp";
 import { toast } from "sonner";
 import { capitalize } from "@/app/utils";
 

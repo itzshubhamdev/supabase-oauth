@@ -48,13 +48,10 @@ export const updateProfile = async (formData: FormData) => {
 
   const firstName = formData.get("first_name") as string;
   const lastName = formData.get("last_name") as string;
-  const username = formData.get("username") as string;
-
   const { error } = await supabase.auth.updateUser({
     data: {
       first_name: firstName,
       last_name: lastName,
-      username: username,
     },
   });
 

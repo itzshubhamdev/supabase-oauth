@@ -29,20 +29,9 @@ export default function Profile({ user }: { user: User }) {
   );
 
   const handleSubmit = async () => {
-    if (username.length < 3) {
-      toast.error("Username must be at least 3 characters long");
-      return;
-    }
-
-    if (/[^a-zA-Z0-9]/.test(username)) {
-      toast.error("Username can only contain alphanumeric characters");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("first_name", firstName);
     formData.append("last_name", lastName);
-    formData.append("username", username);
 
     const response = await updateProfile(formData);
 
@@ -80,15 +69,22 @@ export default function Profile({ user }: { user: User }) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6">
               <div className="grid gap-2">
                 <h3 className="font-medium">Email:</h3>
-                <p>{user.email}</p>
+                <Input value={user.email} readOnly />
               </div>
               <div className="grid gap-2">
                 <h3 className="font-medium">User ID:</h3>
-                <p>{user.id}</p>
+                <Input value={user.id} readOnly />
               </div>
               <div className="grid gap-2">
                 <h3 className="font-medium">Created At:</h3>
-                <p>{new Date(user.created_at).toLocaleString()}</p>
+                <Input
+                  value={new Date(user.created_at).toLocaleString()}
+                  readOnly
+                />
+              </div>
+              <div className="grid gap-2">
+                <h3 className="font-medium">Username:</h3>
+                <Input value={username} readOnly />
               </div>
               <div className="grid gap-2">
                 <h3 className="font-medium">First Name:</h3>
@@ -102,13 +98,6 @@ export default function Profile({ user }: { user: User }) {
                 <Input
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <h3 className="font-medium">Username:</h3>
-                <Input
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-end">
