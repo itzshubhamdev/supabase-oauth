@@ -2,7 +2,7 @@
 
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/utils";
+import { formatDate } from "@/app/utils";
 import { User } from "@supabase/supabase-js";
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash } from "lucide-react";

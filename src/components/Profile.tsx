@@ -1,6 +1,6 @@
 "use client";
 
-import type { AuthOAuthGrantsResponse, User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import {
   Card,
   CardAction,
@@ -11,12 +11,10 @@ import {
 } from "./ui/card";
 import AvatarUpload from "./AvatarUpload";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Separator } from "./ui/separator";
-import AuthorizedGrant from "./AuthorizedGrant";
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { updateProfile } from "@/app/utils";
+import { updateProfile } from "@/serverFunctions/client";
 import { toast } from "sonner";
 
 export default function Profile({ user }: { user: User }) {

@@ -41,15 +41,11 @@ export default async function Page() {
   ) => {
     "use server";
 
-    console.log({ email, password, autoConfirm });
-
     const { error } = await supabase.auth.admin.createUser({
       email,
       password,
       email_confirm: autoConfirm,
     });
-
-    console.log({ error });
 
     if (error) {
       toast.error(

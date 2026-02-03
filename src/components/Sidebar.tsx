@@ -4,7 +4,6 @@ import { Home, Lock, Mail, Settings, UserIcon, Users } from "lucide-react";
 import {
   Sidebar as SidebarComponent,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -54,13 +53,21 @@ const adminItems = [
   },
 ];
 
-export default function Sidebar({ user }: { user: User }) {
+export default function Sidebar({ user }: { user: User | null }) {
   const pathname = usePathname();
+
+  if (!user) {
+    return null;
+  }
+
+  if (pathname.startsWith("/auth") || pathname.startsWith("/oauth")) {
+    return null;
+  }
 
   return (
     <SidebarComponent>
       <SidebarHeader className="text-center font-semibold text-xl">
-        Super Auth
+        <Link href="/">Super Auth</Link>
       </SidebarHeader>
       <Separator />
       <SidebarContent>

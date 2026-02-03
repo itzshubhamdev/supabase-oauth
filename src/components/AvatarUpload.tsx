@@ -13,7 +13,7 @@ import {
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { useState } from "react";
-import { uploadAvatar } from "@/app/utils";
+import { uploadAvatar } from "@/serverFunctions/client";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 

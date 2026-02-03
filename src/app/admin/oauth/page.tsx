@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "../client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
-import OAuthApp from "@/components/admin/OauthApp";
 import {
   Table,
   TableBody,
@@ -11,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { capitalize, formatDate } from "@/lib/utils";
+import { capitalize, formatDate } from "@/app/utils";
 import Link from "next/link";
 
 export default async function Page() {
@@ -78,9 +77,6 @@ export default async function Page() {
             </TableBody>
           </Table>
         )}
-        {apps.data.clients.map((app) => (
-          <OAuthApp key={app.client_id} app={app} handleDelete={handleDelete} />
-        ))}
       </CardContent>
     </Card>
   );

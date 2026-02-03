@@ -1,3 +1,5 @@
+"use client";
+
 import { User } from "@supabase/supabase-js";
 import LogOutBtn from "./LogOutBtn";
 import { ThemeToggle } from "./ThemeToggle";
@@ -6,9 +8,19 @@ import { UserCog } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
 import { SidebarTrigger } from "./ui/sidebar";
+import { usePathname } from "next/navigation";
 
-export default function Navbar({ user }: { user: User }) {
-  const is_admin = user?.user_metadata?.is_admin;
+export default function Navbar({ user }: { user: User | null }) {
+  if (!user) {
+    return null;
+  }
+
+  const pathname = usePathname();
+  if (pathname.startsWith("/auth") || pathname.startsWith("/oauth")) {
+    return null;
+  }
+
+  const is_admin = user.user_metadata?.is_admin;
 
   return (
     <>

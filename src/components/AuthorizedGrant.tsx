@@ -1,6 +1,6 @@
 "use client";
 
-import { revokeGrant } from "@/app/utils";
+import { revokeGrant } from "@/serverFunctions/client";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {

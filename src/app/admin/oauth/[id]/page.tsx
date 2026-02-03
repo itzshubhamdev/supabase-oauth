@@ -10,14 +10,14 @@ import { supabase } from "../../client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { capitalize } from "@/lib/utils";
+import { capitalize } from "@/app/utils";
 import { Copy } from "lucide-react";
 import { redirect } from "next/navigation";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { revalidatePath } from "next/cache";
 import RedirectUris from "@/components/admin/RedirectUris";
+import OAuthClientSecret from "@/components/admin/OAuthClientSecret";
 
 export default async function Page({
   params,
@@ -31,36 +31,6 @@ export default async function Page({
     toast.error(capitalize(error.message));
     redirect("/admin/oauth");
   }
-
-  const addUri = async (uri: string) => {
-    "use server";
-
-    const { error } = await supabase.auth.admin.oauth.updateClient(id, {
-      redirect_uris: [uri],
-    });
-
-    if (error) {
-      toast.error(capitalize(error.message));
-      return;
-    }
-
-    revalidatePath("/admin/oauth/" + id);
-  };
-
-  const deleteUri = async (uri: string) => {
-    "use server";
-
-    const { error } = await supabase.auth.admin.oauth.updateClient(id, {
-      redirect_uris: data!.redirect_uris.filter((u) => u !== uri),
-    });
-
-    if (error) {
-      toast.error(capitalize(error.message));
-      return;
-    }
-
-    revalidatePath("/admin/oauth/" + id);
-  };
 
   return (
     <Card>
@@ -87,13 +57,10 @@ export default async function Page({
               </Button>
             </ButtonGroup>
           </Field>
+          <OAuthClientSecret id={id} clientSecret={data.client_secret} />
           <Field>
             <FieldLabel>Redirect URIs</FieldLabel>
-            <RedirectUris
-              addUri={addUri}
-              deleteUri={deleteUri}
-              redirect_uris={data.redirect_uris}
-            />
+            <RedirectUris id={id} redirect_uris={data.redirect_uris} />
           </Field>
         </div>
       </CardContent>

@@ -52,9 +52,9 @@ export default async function RootLayout({
           <SidebarProvider>
             <div className="flex w-full min-h-screen">
               <Toaster position="top-right" />
-              {user && <Sidebar user={user} />}
+              <Sidebar user={user} />
               <div className="w-full justify-center">
-                {user && <Navbar user={user} />}
+                <Navbar user={user} />
                 <div className="flex w-full items-center justify-center p-8">
                   {children}
                 </div>
