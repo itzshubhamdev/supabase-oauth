@@ -62,3 +62,57 @@ export const updateProfile = async (formData: FormData) => {
   revalidatePath("/", "layout");
   return { success: true };
 };
+
+export const addAddress = async (
+  address: string,
+  city: string,
+  state: string,
+  zip: string,
+  country: string,
+) => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/auth/login?redirect=/addresses");
+  }
+
+  const addresses = user.user_metadata?.billing_addresses || [];
+
+  const res = await supabase.auth.updateUser({
+    data: {
+      ...user.user_metadata,
+      billing_addresses: [...addresses, { address, city, state, zip, country }],
+    },
+  });
+
+  revalidatePath("/addresses");
+  return res;
+};
+
+export const deleteAddress = async (index: number) => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/auth/login?redirect=/addresses");
+  }
+
+  const addresses = (user.user_metadata?.billing_addresses || []) as object[];
+
+  const res = await supabase.auth.updateUser({
+    data: {
+      ...user.user_metadata,
+      billing_addresses: addresses.filter((_, i) => i !== index),
+    },
+  });
+
+  revalidatePath("/addresses");
+  return res;
+};
